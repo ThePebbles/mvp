@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import { QueryHandler } from './queryHandler.jsx';
 import { QueryResults } from './queryResults.jsx';
+import { Recent } from './recent.jsx';
 //const $ = require('jquery')
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -11,9 +12,9 @@ const App = () => {
   const [queryRepo, setQueryRepo] = useState({});
   const [repoList, setRepoList] = useState([]);
 
-  useEffect(() => {
-    updateRepos();
-  }, [])
+//   useEffect(() => {
+//     updateRepos();
+//   }, [])
 
   var updateRepos = function(name, picture) {
     $.ajax({
@@ -21,6 +22,7 @@ const App = () => {
         url: 'http://localhost:3000/pokemon',
         data: { 'name': name, 'picture': picture },
         success: (data) => {
+            console.log('Yay! ', data);
           setRepoList(data);
         },
         error: (err) => {
@@ -51,6 +53,7 @@ const App = () => {
       </h1>
         <QueryHandler querySubmit={querySubmit} />
         <QueryResults queryRepo={queryRepo} />
+        <Recent repoList={repoList} />
     </div>
   )
 }

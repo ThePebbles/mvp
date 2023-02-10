@@ -18,7 +18,7 @@ app.post('/pokemon', function (req, res) {
   //console.log('Req body: ', req.body);
   helper(req.body.name)
   .then((results) => {
-    console.log('results from api', results);
+    //console.log('results from api', results);
       //console.log('These are results from post: ', results.data.data[0]);
       //add name -> results.data.data[0].name, dex number -> results.data.data[0].nationalPokedexNumbers[0], image -> results.data.data[0].images.small, types -> results.data.data[0].types[0] and results.data.data[0].types[1]
       var current = results.data.data[0];
@@ -35,8 +35,9 @@ app.post('/pokemon', function (req, res) {
 })
 
 app.get('/pokemon', (req, res) => {
-  if (req.body.name !== null) {
-    return models.Recent.findOneAndDelete({'name': req.body.name})
+  console.log('this is req: ', req.query);
+  if (req.query.name !== undefined) {
+    return models.Recent.findOneAndDelete({'name': req.query.name})
     .then((results) => {
       return models.Recent.find().sort({'slot': -1});
     })
@@ -44,7 +45,7 @@ app.get('/pokemon', (req, res) => {
       if (results.length >= 6) {
         return models.Recent.deleteOne({'name': results[results.length - 1].name})
         .then((results) => {
-          return models.Recent.create({'name': req.body.name, 'picture': req.body.picture, 'slot': null});
+          return models.Recent.create({'name': req.query.name, 'picture': req.query.picture, 'slot': null});
         })
         .then((results) => {
           return models.Recent.find();
@@ -62,7 +63,7 @@ app.get('/pokemon', (req, res) => {
           res.status(500).send(err);
         })
       } else {
-        return models.Recent.create({'name': req.body.name, 'picture': req.body.picture, 'slot': null})
+        return models.Recent.create({'name': req.query.name, 'picture': req.query.picture, 'slot': null})
         .then((results) => {
           return models.Recent.find();
         })
@@ -73,7 +74,8 @@ app.get('/pokemon', (req, res) => {
           return models.Recent.find().sort({'slot': -1}).limit(6);
         })
         .then((results) => {
-          res.send(results);
+          console.log('These are results2: ', results)
+          res.status(200).send(results);
         })
         .catch((err) => {
           res.status(500).send(err);
@@ -83,7 +85,8 @@ app.get('/pokemon', (req, res) => {
   } else {
     return models.Recent.find().sort({'slot': -1}).limit(6)
     .then((results) => {
-      res.send(results);
+      console.log('These are results1: ', results);
+      res.status(200).send(results);
     })
     .catch((err) => {
       res.status(500).send(err);

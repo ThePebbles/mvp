@@ -14,7 +14,7 @@ const QueryResults = ({ queryRepo }) => {
     } else {
       return 'National Pokedex Number: ' + queryRepo.dex;
     }
-  }
+  };
   return (
     <div>
     <h3>
