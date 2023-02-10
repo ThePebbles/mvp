@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import { QueryHandler } from './queryHandler.jsx'
+import { QueryHandler } from './queryHandler.jsx';
+import { QueryResults } from './queryResults.jsx';
 //const $ = require('jquery')
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -10,9 +11,9 @@ const App = () => {
   const [queryRepo, setQueryRepo] = useState({});
   const [repoList, setRepoList] = useState([]);
 
-//   useEffect(() => {
-//     updateRepos();
-//   }, [])
+  useEffect(() => {
+    updateRepos();
+  }, [])
 
   var updateRepos = function(name, picture) {
     $.ajax({
@@ -48,9 +49,8 @@ const App = () => {
       <h1>
         Pokemon Card Finder
       </h1>
-      <div>
         <QueryHandler querySubmit={querySubmit} />
-      </div>
+        <QueryResults queryRepo={queryRepo} />
     </div>
   )
 }

@@ -6,14 +6,14 @@ const QueryHandler = ({ querySubmit }) => {
   const updateText = (event) => {
     setTextValue(event.target.value);
   }
-
-
   return (
+    <div>
+    <h2>Pokemon Name:</h2>
     <form>
-      <label value='Pokemon Name:'></label>
-      <textarea id='search' onChange={updateText}></textarea>
+      <input type='text' id='search' onChange={updateText}></input>
       <input type='button' id='searchButton' value='search' onClick={() => querySubmit(textValue)}></input>
     </form>
+    </div>
   )
 }
 export { QueryHandler };
