@@ -15,13 +15,13 @@ app.use((req, res, next) => {
 });
 
 app.post('/pokemon', function (req, res) {
-  console.log('Req body: ', req.body);
-  helper(req.body.username)
+  //console.log('Req body: ', req.body);
+  helper(req.body.name)
   .then((results) => {
+    console.log('results from api', results);
       //console.log('These are results from post: ', results.data.data[0]);
       //add name -> results.data.data[0].name, dex number -> results.data.data[0].nationalPokedexNumbers[0], image -> results.data.data[0].images.small, types -> results.data.data[0].types[0] and results.data.data[0].types[1]
       var current = results.data.data[0];
-      console.log('current type 2: ', current.types[1]);
       return models.Pokemon.create({'name': current.name, 'dex': current.nationalPokedexNumbers[0], 'picture': current.images.small, 'typeOne': current.types[0]})
     })
     .then((results) => {
@@ -35,8 +35,8 @@ app.post('/pokemon', function (req, res) {
 })
 
 app.get('/pokemon', (req, res) => {
-  if (req.body.username) {
-    return models.Recent.findOneAndDelete({'name': req.body.username})
+  if (req.body.name !== null) {
+    return models.Recent.findOneAndDelete({'name': req.body.name})
     .then((results) => {
       return models.Recent.find().sort({'slot': -1});
     })
@@ -44,7 +44,7 @@ app.get('/pokemon', (req, res) => {
       if (results.length >= 6) {
         return models.Recent.deleteOne({'name': results[results.length - 1].name})
         .then((results) => {
-          return models.Recent.create({'name': req.body.username, 'picture': req.body.picture, 'slot': null});
+          return models.Recent.create({'name': req.body.name, 'picture': req.body.picture, 'slot': null});
         })
         .then((results) => {
           return models.Recent.find();
@@ -62,7 +62,7 @@ app.get('/pokemon', (req, res) => {
           res.status(500).send(err);
         })
       } else {
-        return models.Recent.create({'name': req.body.username, 'picture': req.body.picture, 'slot': null})
+        return models.Recent.create({'name': req.body.name, 'picture': req.body.picture, 'slot': null})
         .then((results) => {
           return models.Recent.find();
         })

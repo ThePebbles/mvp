@@ -1,16 +1,58 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import { QueryHandler } from './queryHandler.jsx'
 //const $ = require('jquery')
 import { useState } from 'react';
 import { useEffect } from 'react';
 
 const App = () => {
-    return (
-        <h1>
-            Welcome to React App thats build using Webpack and Babel separately
-        </h1>
-    )
+  const [queryRepo, setQueryRepo] = useState({});
+  const [repoList, setRepoList] = useState([]);
+
+//   useEffect(() => {
+//     updateRepos();
+//   }, [])
+
+  var updateRepos = function(name, picture) {
+    $.ajax({
+        method: 'GET',
+        url: 'http://localhost:3000/pokemon',
+        data: { 'name': name, 'picture': picture },
+        success: (data) => {
+          setRepoList(data);
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
+  }
+
+  var querySubmit = function(query) {
+    $.ajax({
+      method: 'POST',
+      url: 'http://localhost:3000/pokemon',
+      data: { 'name': query },
+      success: (data) => {
+        setQueryRepo(data);
+        updateRepos(data.name, data.picture);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  return (
+    <div>
+      <h1>
+        Pokemon Card Finder
+      </h1>
+      <div>
+        <QueryHandler querySubmit={querySubmit} />
+      </div>
+    </div>
+  )
 }
 
 export default App
