@@ -10,9 +10,9 @@ const Recent = ({ repoList }) => {
   });
   return (
     <div>
-      <h4>
+      <h3>
         Your Party:
-      </h4>
+      </h3>
       <div>
         {results}
       </div>
