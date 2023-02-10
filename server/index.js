@@ -29,8 +29,10 @@ app.post('/pokemon', function (req, res) {
         var type;
         if (current.types[0] === 'Lightning') {
           type = 'Electric';
+        } else if (current.types[0] === 'Metal') {
+          type = 'Steel';
         } else if (current.types[0] === 'Colorless') {
-          type = 'Normal'
+          type = 'Normal';
         } else {
           type = current.types[0];
         }
