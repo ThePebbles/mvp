@@ -11,7 +11,8 @@ const QueryHandler = ({ querySubmit }) => {
     <h2>Pokemon Name:</h2>
     <form>
       <input type='text' id='search' onChange={updateText}></input>
-      <input type='button' id='searchButton' value='search' onClick={() => querySubmit(textValue)}></input>
+      <img type='button' id='pokeball' src='./Pokeball.jpg' onClick={() => querySubmit(textValue)}></img>
+      {/* <input type='button' id='searchButton' value='search' onClick={() => querySubmit(textValue)}></input> */}
     </form>
     </div>
   )
